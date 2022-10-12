@@ -48,8 +48,8 @@ INPUT_TEXT.addEventListener('click', () =>{
 // }
 
 // AGREGAR CLASES AL ELEMENTO SELECCIONADO
-INPUT_TEXT.className = 'texto'
-INPUT_TEXT.className += ' texto2'
-INPUT_TEXT.classList.add('texto3')
-INPUT_TEXT.className = 'texto'
+// INPUT_TEXT.className = 'texto'
+// INPUT_TEXT.className += ' texto2'
+// INPUT_TEXT.classList.add('texto3')
+// INPUT_TEXT.className = 'texto'
 
