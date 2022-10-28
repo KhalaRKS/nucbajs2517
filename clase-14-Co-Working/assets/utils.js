@@ -99,10 +99,16 @@ const getRadioValue = (inputs) => {
   return checkedInput.value;
 };
 // Función para obtener los values de los inputs de tipo checkbox que esten seleccionados(extras)
+// Recibe un HTMLCollection de inputs( que serán todos los de tipo CHECKBOX cuando la llamemos).
+// Devuelve un array con los values de los elementos seleccionados.
 const getCheckedOptions = (inputs) => {
+  console.log("HTMLCOLLECTION", inputs, typeof inputs);
+  console.log("ARRAY DE ELEMENTOS", [...inputs], typeof [...inputs]);
+
   const checkedOptions = [...inputs]
     .filter((input) => input.checked)
     .map((opt) => opt.value);
+  return checkedOptions;
 };
 
 // Funcion para formatear la fecha que nos devuelve el input date, para asi despues mostrar
@@ -113,4 +119,48 @@ const getCheckedOptions = (inputs) => {
 // splitDate = 25/08/2022
 const formatDate = (date) => {
   const splitDate = date.split("-").reverse().join("/");
+  return splitDate;
+};
+
+// Formato de las Cards
+
+// Funcion que setea el color de fondo de la card
+
+const setCardBackground = (quantity) => {
+  return quantity === "Más de 10"
+    ? "violet-card"
+    : quantity === "Entre 5 y 10"
+    ? "red-card"
+    : "black-card";
+};
+
+// Funcion para setear el color del span de horario segun la cantidad de personas
+const setTimeBackground = (quantity) => {
+  return quantity === "Menos de 5" ? "red-card" : "black-card";
+};
+
+// Funcion para setear el color del span de fecha segun la cantidad de personas
+
+const setDateBackground = (quantity) => {
+  return quantity === "Más de 10" ? "red-card" : "violet-card";
+};
+
+// Funcion para setear la imagen que acompáñar las cards segun la cantidad de personas
+
+const setCardImg = (quantity) => {
+  return quantity === "Más de 10"
+    ? "./assets/img/server.png"
+    : quantity === "Entre 5 y 10"
+    ? "./assets/img/laptop.png"
+    : "./assets/img/lupa.png";
+};
+
+// Funcion para setear la clase de la imagen que acompañar a alas cards de cantidad de personas
+
+const setCardImgClass = (quantity) => {
+  return quantity === "Más de 10"
+    ? "server-img"
+    : quantity === "Entre 5 y 10"
+    ? "laptop-img"
+    : "lupa-img";
 };

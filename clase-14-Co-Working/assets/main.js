@@ -21,7 +21,7 @@ const saveDate = () => {
       email: emailInput.value,
       date: formatDate(dateInput.value),
       time: hourInput.value,
-      quantity: getRadioValue(radioInput),
+      quantity: getRadioValue(radioInputs),
       extras: getCheckedOptions(checkboxInputs),
       about: aboutInput.value,
     },
@@ -34,12 +34,17 @@ const saveDate = () => {
 const renderTurn = (turn) => {
   const { id, name, surname, phone, email, date, time, quantity, extras } =
     turn;
+  console.log(extras);
   return `
   <div class="card ${setCardBackground(quantity)}">
         <div class="card__left">
           <h2 class="card__title">Orden: N°${id} - ${name} ${surname}</h2>
           <p class="card__qty">${quantity}</p>
-          <p class="card__extras">Extra: ${extras}</p>
+          <p class="card__extras">Extra: ${
+            extras && extras.length
+              ? extras.join(", ")
+              : "No requiere herramientas extras."
+          }</p>
           <div class="tags">
             <span class="card__hour ${setTimeBackground(
               quantity
