@@ -43,7 +43,7 @@ const setDateIntervals = () => {
 // ----------------------------------------------------
 
 const isEmpty = (value) => {
-  !value.length;
+  return !value.length;
 };
 
 const isEmailValid = (email) => {

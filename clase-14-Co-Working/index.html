@@ -64,7 +64,15 @@
               <div class="form__field">
                 <label for="hour">Hora</label>
                 <!-- Input para el horario -->
-                <input type="time" name="hour" id="hour" />
+                <input
+                  type="time"
+                  name="hour"
+                  id="hour"
+                  min="08:00"
+                  max="19:00"
+                  value="08:00"
+                  step="1800"
+                />
                 <small></small>
               </div>
             </div>
