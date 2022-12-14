@@ -1,8 +1,12 @@
-const products = document.querySelector(".products-container");
+import { productsController} from "./data.js";
+import {renderProducts} from "./render.js";
+import { checkCartState, disableBtn, renderCartBubble, renderCart, showTotal} from "./carrito.js";
 
-const productsCart = document.querySelector(".cart-container");
+export const products = document.querySelector(".products-container");
 
-const total = document.querySelector(".total");
+export const productsCart = document.querySelector(".cart-container");
+
+export const total = document.querySelector(".total");
 
 const categories = document.querySelector(".categories");
 
@@ -10,9 +14,9 @@ const categoriesList = document.querySelectorAll(".category");
 
 const btnLoad = document.querySelector(".btn-load");
 
-const buyBtn = document.querySelector(".btn-buy");
+export const buyBtn = document.querySelector(".btn-buy");
 
-const cartBubble = document.querySelector(".cart-bubble");
+export const cartBubble = document.querySelector(".cart-bubble");
 
 const cartBtn = document.querySelector(".cart-label");
 
@@ -26,84 +30,11 @@ const overlay = document.querySelector(".overlay");
 
 const successModal = document.querySelector(".add-modal");
 
-const deleteBtn = document.querySelector(".btn-delete");
+export const deleteBtn = document.querySelector(".btn-delete");
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  // carrito
+  export let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// Funcion para guardar un array de objetos nuevos en el localStorage
-const saveLocalStorage = (cartList) => {
-  localStorage.setItem("cart", JSON.stringify(cartList));
-};
-
-// Funci[on individual de renderizado de productos
-
-const renderProduct = (product) => {
-  const { id, name, bid, user, userImg, cardImg } = product;
-  return ` 
-  <div class="product">
-      <img src=${cardImg} alt=${name} />
-      <div class="product-info">
-          <!-- top -->
-          <div class="product-top">
-              <h3>${name}</h3>
-              <p>Current Bid</p>
-          </div>
-          <!-- mid -->
-          <div class="product-mid">
-              <div class="product-user">
-                  <img src=${userImg} alt="user" />
-                  <p>@${user}</p>
-              </div>
-              <span>${bid} eTH</span>
-          </div>
-          <!-- bot -->
-          <div class="product-bot">
-              <div class="product-offer">
-                  <div class="offer-time">
-                      <img src="./assets/img/fire.png" alt="" />
-                      <p>05:12:07</p>
-                  </div>
-                  <button class="btn-add"
-                  data-id='${id}'
-                  data-name='${name}'
-                  data-bid='${bid}'
-                  data-img='${cardImg}'>Add</button>
-              </div>
-          </div>
-      </div>
-  </div>`;
-};
-
-// Función de renderizados de los productos con el boton Ver Mas
-// Recibe un index, en caso de que no valdra 0, y rendiraza los 6  elementos siguientes correspondientes al index
-
-const renderDividedProducts = (index = 0) => {
-  products.innerHTML += productsController.dividedProducts[index]
-    .map(renderProduct)
-    .join("");
-};
-
-// Función de renderizado de los productos del carrito cuando se aplican filtros
-// Recibe un string con el nombre de la categoria
-
-const renderFilteredProducts = (category) => {
-  const productsList = productsData.filter(
-    (product) => product.category === category
-  );
-  products.innerHTML = productsList.map(renderProduct).join("");
-};
-
-// Función para agregar productos al carrito
-
-// Recibe un index, en caso de no recibirlo este sera 0, y una categoria, en caso de no recibirla sera undefined.
-
-const renderProducts = (index = 0, category = undefined) => {
-  if (!category) {
-    renderDividedProducts(index);
-    return;
-  }
-  renderFilteredProducts(category);
-};
 
 /***********  Lógica de filtros  ************/
 
@@ -174,9 +105,9 @@ const showMoreProducts = () => {
 // Togglea el menu y si el carrito esta abierto, lo cierra. Finalmente, muesta el overaly
 
 const toggleMenu = () => {
-  barsMenu.classList.toggle("open-cart");
-  if (barsMenu.classList.contains("open-menu")) {
-    barsMenu.classList.remove("open-menu");
+  barsMenu.classList.toggle("open-menu");
+  if (cartMenu.classList.contains("open-cart")) {
+    cartMenu.classList.remove("open-cart");
     return;
   }
   overlay.classList.toggle("show-overlay");
@@ -224,79 +155,6 @@ const closeOnOverlayClick = () => {
 };
 
 // Logica del carrito
-
-// Renderizado de un producto del carrito.
-
-const renderCartProduct = (cartProduct) => {
-  const { id, name, bid, img, quantity } = cartProduct;
-  return `    
-  <div class="cart-item">
-    <img src=${img} alt="Nft del carrito" />
-    <div class="item-info">
-      <h3 class="item-title">${name}</h3>
-      <p class="item-bid">Current bid</p>
-      <span class="item-price">${bid} ETH</span>
-    </div>
-    <div class="item-handler">
-      <span class="quantity-handler down" data-id=${id}>-</span>
-      <span class="item-quantity">${quantity}</span>
-      <span class="quantity-handler up" data-id=${id}>+</span>
-    </div>
-  </div>`;
-};
-// Funcion para renderizar el carrito
-// Recibe un array con objetos y lo renderiza en el carrito.
-// si no hay elementos en el array del carrito, renderiza un mensaje de que no hay productos
-const renderCart = () => {
-  if (!cart.length) {
-    productsCart.innerHTML = `<p class="empty-msg">No hay productos en el carrito.</p>`;
-    return;
-  }
-  productsCart.innerHTML = cart.map(renderCartProduct).join("");
-};
-
-//Funcion para obtener el precio total de la compra
-
-const getCartTotal = () => {
-  return cart.reduce((acc, cur) => acc + Number(cur.bid) * cur.quantity, 0);
-};
-
-// Funcion para renderizar el precio total de la compra
-
-const showTotal = () => {
-  total.innerHTML = `${getCartTotal().toFixed(2)} eTH`;
-};
-
-// Funcion para renderizar la cantidad de productos que hay en el carrito en la burbuja del icono del carrito
-
-const renderCartBubble = () => {
-  console.log(cart.reduce((acc, cur) => acc + cur.quantity, 0));
-  cartBubble.textContent = cart.reduce((acc, cur) => acc + cur.quantity, 0);
-};
-// mirar esto
-// cart.reduce((acc, cur) => acc + cur.quantity, 0);
-
-//Funcion es habilitar el boton de compra si el carrito tiene algo.
-
-const disableBtn = (btn) => {
-  if (!cart.length) {
-    btn.classList.add("disabled");
-  } else {
-    btn.classList.remove("disabled");
-  }
-};
-
-// Funcion para chequear el estado del carrito una vez realizada alguna manipulacion del mismo
-// agregar, quitar, comprar, etc
-
-const checkCartState = () => {
-  saveLocalStorage(cart);
-  renderCart(cart);
-  showTotal(cart);
-  disableBtn(buyBtn);
-  disableBtn(deleteBtn);
-  renderCartBubble(cart);
-};
 
 // Funcion para añadir un producto al carrito
 // si el producto no existe en el carrito, crea uno

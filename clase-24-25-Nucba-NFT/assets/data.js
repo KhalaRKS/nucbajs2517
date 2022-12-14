@@ -1,4 +1,4 @@
-const productsData = [
+export const productsData = [
   {
     id: 1,
     name: "Golden Messi",
@@ -146,7 +146,7 @@ const splitProducts = (size) => {
   return dividedProducts;
 };
 
-const productsController = {
+export const productsController = {
   dividedProducts: splitProducts(6),
   nextProductsIndex: 1,
   productsLimit: splitProducts(6).length,
